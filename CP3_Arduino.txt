@@ -1,0 +1,182 @@
+
+
+// Declarando os pinos do lcd
+#include <LiquidCrystal.h> 
+LiquidCrystal lcd(13, 11, 9, 8, 10, 12);
+
+// Definindo o pino do DHT e incluindo variaveis
+#include <DHT.h>
+
+#define DHTPIN A1
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+// Definindo o pino dos Leds
+int ledVerde 	= 2;
+int ledAmarelo 	= 3;
+int ledVermelho = 4;
+
+// inindo o pino do buzzer
+int buzzer 	= 5;
+
+// Definindo o sensor de presença 
+const int trigger = 7; 
+const int echo    = 6; 
+float dist = 0;
+
+
+void setup()
+{
+  // Inicia a comunicação serial
+  Serial.begin(9600);
+  
+  // Iniciando o dht
+  dht.begin();
+  
+  // Definindo as entradas e saídas
+  
+    // buzzer
+    pinMode(buzzer, OUTPUT);
+
+    // Leds
+    pinMode(ledVerde, OUTPUT);
+    pinMode(ledAmarelo, OUTPUT);
+    pinMode(ledVermelho, OUTPUT);
+  
+  
+  	// Sensor de presença
+  	pinMode(trigger,OUTPUT);
+  	pinMode(echo,INPUT);
+  
+}
+
+void loop()
+{
+  // Definindo o pino analógico do LDR
+  int LDR = analogRead(A0);
+  
+  // Coletando as informações do DHT
+  float umidade = dht.readHumidity();
+  float temperatura = dht.readTemperature();
+  
+  // Coletando dados do estoque 
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(5); 
+
+  digitalWrite(trigger,HIGH);  
+  delayMicroseconds(10);    
+
+  dist=pulseIn(echo,HIGH); 
+  
+  // Convertendo para centimetros
+  dist = dist/58;        
+  
+  
+  // PROCESSANDO OS DADOS
+  
+   
+  // Verificando se o sensor está funcionando
+  if (isnan(umidade) || isnan(temperatura)) {
+    
+    Serial.println("Erro ao ler o sensor DHT!");
+    
+  } else {
+
+    // Caso em que o ambiente é favorável
+    if (LDR <= 800 && temperatura >= 10 && temperatura <= 16 && umidade >= 60 && umidade <= 80){
+
+      Serial.println("---- FAVORAVEL ----");
+
+    }
+
+    // Aviso de mudança do ambiente
+    if(LDR > 800 && LDR <= 900 || temperatura >= 6 && temperatura < 10 || temperatura <= 19 && temperatura > 16 || umidade < 60 && umidade > 50 || umidade > 80 && umidade < 90){
+
+      Serial.println("**** ATENCAO ****");
+
+    }
+    // Caso em que o ambiente NÃO é favorável
+    if(LDR > 900 || temperatura < 6 || temperatura > 19 || umidade <= 50 || umidade >= 90){
+
+      Serial.println("!!!! ALERTA !!!!");  
+
+      digitalWrite(buzzer, HIGH);
+
+      delay(3000);
+
+      digitalWrite(buzzer, LOW);
+
+    }
+    if (dist <= 10){
+
+      // Apresentando os dados no LCD
+      lcd.begin(16,2);
+      lcd.setCursor(0,0);
+      lcd.print("NORMAL");
+
+      lcd.setCursor(0,1);
+      lcd.print("ESTOQUE CHEIO");
+
+      digitalWrite(ledVerde, HIGH);
+      digitalWrite(ledAmarelo, LOW);
+      digitalWrite(ledVermelho, LOW);
+      digitalWrite(buzzer, LOW);
+
+    } else if (dist > 10 && dist <= 20){
+
+       // Apresentando os dados no LCD
+      lcd.begin(16,2);
+      lcd.setCursor(0,0);
+      lcd.print("ATENCAO");
+
+      lcd.setCursor(0,1);
+      lcd.print("NA METADE");
+
+      digitalWrite(ledVerde, LOW);
+      digitalWrite(ledAmarelo, HIGH);
+      digitalWrite(ledVermelho, LOW);
+      digitalWrite(buzzer, LOW);
+
+    }
+    else {
+
+       // Apresentando os dados no LCD
+      lcd.begin(16,2);
+      lcd.setCursor(0,0);
+      lcd.print("ALERTA");
+
+      lcd.setCursor(0,1);
+      lcd.print("ESTOQUE BAIXO");
+
+      digitalWrite(ledVerde, LOW);
+      digitalWrite(ledAmarelo, LOW);
+      digitalWrite(ledVermelho, HIGH);
+      digitalWrite(buzzer, LOW);
+
+    }
+
+     // PREVIEW OS DADOS
+
+      Serial.println("    ");
+      Serial.print("Luminosidade: ");
+      Serial.println(LDR);
+
+      Serial.print("Temperatura: ");
+      Serial.print(temperatura);
+      Serial.println(" c ");
+
+      Serial.print("Umidade: ");
+      Serial.print(umidade);
+      Serial.println(" % ");
+    
+      Serial.print("Estoque: ");
+      Serial.print(dist);
+      Serial.println(" cm ");
+
+      Serial.println("    ");
+
+
+    delay(1000);
+  }
+}
