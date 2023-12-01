@@ -11,12 +11,15 @@
 
     Sergio Cristian Apaza Limachi - RM553318
 
-# Sobre 
+# Problema
 
-    O sistema apresentado é uma parte integrante do projeto Vinheria Agnello, cujo propósito é o monitoramento dos estoques de vinho. 
-    Utilizando o Arduino e sensores, realiza-se a captura das informações de luminosidade e temperatura do ambiente umidade e controle de estoque. 
-    Com os dados coletados, o sistema interpreta e fornece estado do estoque e notificações sobre a situação atual do ambiente,
-    assegurando um maior controle sobre os estoques e evitando cenários desfavoráveis para o armazenamento dos produtos.
+    O Medi+ enfrenta o desafio comum e crítico relacionado à gestão de medicamentos e cuidados de saúde. O serviço aborda problemas como o armazenamento inadequado de remédios, dificuldades na administração correta das prescrições médicas e a baixa adesão dos pacientes 
+    aos tratamentos. 
+
+#Solução
+
+    Busca solucionar esses desafios por meio de uma plataforma integrada que oferece orientações precisas sobre armazenamento, automatização do cronograma de medicamentos, comunicação direta com profissionais de saúde e integração da telemedicina, visando 
+    aprimorar a eficácia dos tratamentos e proporcionar uma experiência mais segura e personalizada aos usuários.
 
 # Circuito montado no ThinkerCad
 
