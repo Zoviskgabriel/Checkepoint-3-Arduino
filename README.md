@@ -9,13 +9,13 @@
 
 # Problema
 
-     O Medi+ enfrenta o desafio comum e crítico relacionado à gestão de medicamentos e cuidados de saúde. 
+    O Medi+ enfrenta o desafio comum e crítico relacionado à gestão de medicamentos e cuidados de saúde. 
     O serviço aborda problemas como o armazenamento  inadequado de remédios, dificuldades na administração 
     correta das prescrições médicas e a baixa adesão dos pacientes aos tratamentos. 
 
 # Solução
 
-     Busca solucionar esses desafios por meio de uma plataforma integrada que oferece orientações precisas 
+    Busca solucionar esses desafios por meio de uma plataforma integrada que oferece orientações precisas 
     sobre armazenamento, automatização do cronograma de medicamentos, comunicação direta com profissionais de 
     saúde e integração da telemedicina, visando aprimorar a eficácia dos tratamentos e proporcionar uma
     experiência mais segura e personalizada aos usuários.
